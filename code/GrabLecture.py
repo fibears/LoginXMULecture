@@ -2,16 +2,15 @@
 # -*- coding: utf-8 -*-
 # @Author: zengphil
 # @Date:   2016-03-20 16:36:35
-# @Last Modified by:   zengphil
-# @Last Modified time: 2016-03-20 18:43:20
+# @Last Modified by:   fibears
+# @Last Modified time: 2016-03-20 23:48:38
 
 # Load packages
 import time
-
 import urllib
 import urllib2
 import cookielib
-
+import re
 from lxml.html import parse
 
 class GrabLecture(object):
@@ -28,15 +27,18 @@ class GrabLecture(object):
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
         return opener
 
-    def getParsed(self, opener):
-        parsed = parse(opener.open(self.LectureUrl).read())
+    def getParsed(self):
+        opener = self.getOpener()
+        parsed = parse(opener.open(self.LectureUrl))
         return parsed
 
-    def getPostdata(self, opener, parsed):
+    def getPostdata(self):
+        parsed = self.getParsed()
         # construct regex to extract JSLink of Reservation
         pattern = re.compile(r"javascript:__doPostBack\('(.*?)','(.*?)'\)")
         # replace 'cancel' to 'success'
-        JSLink = parsed.xpath('//td/a[contains(@onclick, "Cancel")]/@href')[0]
+        # JSLink = parsed.xpath('//td/a[contains(@name, "cancel")]/@href')[0]
+        JSLink = parsed.xpath('//td/a[contains(@id, "btnreceive")]/@href')[0]
 
         # Extract the parameters from html
         ViewState = parsed.xpath('//input[@name="__VIEWSTATE"]/@value')[0]
@@ -57,13 +59,15 @@ class GrabLecture(object):
             })
         return PostData
 
-    def start(self, PostData, opener):
-        Headers = self.headers.update({
+    def start(self):
+        self.headers.update({
             'Host': 'event.wisesoe.com',
             'Referer': 'http://event.wisesoe.com/Authenticate.aspx?returnUrl=/LectureOrder.aspx',
             'Connection': 'keep-alive'
             })
-        QKRequest = urllib2.Request(self.LectureUrl, PostData, Headers)
+        opener = self.getOpener()
+        PostData = self.getPostdata()
+        QKRequest = urllib2.Request(self.LectureUrl, PostData, self.headers)
         response = opener.open(QKRequest)
 
 
