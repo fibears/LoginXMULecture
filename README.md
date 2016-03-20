@@ -1,4 +1,4 @@
-# Grab the Ticket From XMULecture Website.
+# Secure a seat From XMU Lecture Website.
 
 [Official Website](http://event.wisesoe.com/)
 
@@ -8,3 +8,4 @@ As a lazy man, I don't like to wait for reserving the lecture in time. So, I try
 
 Finally, I succeed in developing the `web robot`.
 
+Didn't reserve successfully for a lecture? No worry, my robot will help you secure your seat in advance, fast, free and friendly.
