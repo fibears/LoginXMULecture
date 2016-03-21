@@ -12,8 +12,8 @@ Didn't reserve successfully for a lecture? No worry, my robot will help you secu
 
 ## How to run this robot?
 
-1. Install Python2.7
-2. Install lxml package
+1. Install Anaconda or Python2.7
+2. Install lxml package(Anaconda has contained this package)
 3. Open auto.sh(OSX or Linux) or auto.bat(Windows) by text editor. And change the "Username" and "Passwd" to your real account information.
-4. Finally, run auto.sh or auto.bat file.
+4. Finally, run auto.sh(OSX or Linux) or auto.bat(Windows) file.
 

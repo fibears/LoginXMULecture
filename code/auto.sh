@@ -1,2 +1,3 @@
-python getcookie.py username password
+
+python getcookie.py Username Passwd
 python GrabLecture.py
