@@ -9,3 +9,11 @@ As a lazy man, I don't like to wait for reserving the lecture in time. So, I try
 Finally, I succeed in developing the `web robot`.
 
 Didn't reserve successfully for a lecture? No worry, my robot will help you secure your seat in advance, fast, free and friendly.
+
+## How to run this robot?
+
+1. Install Python2.7
+2. Install lxml package
+3. Open auto.sh(OSX or Linux) or auto.bat(Windows) by text editor. And change the "Username" and "Passwd" to your real account information.
+4. Finally, run auto.sh or auto.bat file.
+

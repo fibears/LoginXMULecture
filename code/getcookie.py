@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # @Author: zengphil
 # @Date:   2016-03-20 18:36:34
-# @Last Modified by:   zengphil
-# @Last Modified time: 2016-03-20 18:41:40
+# @Last Modified by:   fibears
+# @Last Modified time: 2016-03-21 15:01:20
 
 import time
 import sys
@@ -12,6 +12,7 @@ import urllib
 import urllib2
 import cookielib
 
+print("Crawl the cookie......")
 # 设置保存cookie的文件
 firename = 'cookie.txt'
 # 创建MozillaCookieJar对象实例来保存cookie，之后写入文件
@@ -36,7 +37,7 @@ TimeStamp1Data = urllib.urlencode({
     })
 
 urltoken = 'http://account.wisesoe.com/WcfServices/SSOService.svc/Account/Logon?' + TimeStamp1Data
-result2 = opener.open(urltoken).read()
+result2 = opener.open(urltoken)
 
 # Part 3.
 TimeStamp2 = int(time.time()*1000)
@@ -60,6 +61,8 @@ headers = {
 request = urllib2.Request(AuthUrl, TokenData, headers)
 result4 = opener.open(request)
 cookie.save(ignore_discard=True, ignore_expires=True)
+print("The cookie is saved on your computer!")
+print("Next step =====> GrabLecture from website.")
 
 
 
