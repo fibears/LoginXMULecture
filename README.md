@@ -18,4 +18,4 @@ Fortunately, I succeeded in developing the web robot. I have tested a lot of tim
 chmod a+x auto.sh
 ./auto.sh
 ```Still didn’t reserve successfully for a lecture? No worry, my robot will help you secure your seat in advance, fast, free and friendly.
-
+If you want to explore the operational logic of this website, please visit [my blog](http://fibears.top/2016/03/21/%E6%8A%A2%E7%A5%A8%E5%8A%A9%E6%89%8B%E4%BA%94%E5%8F%AA%E7%86%8A/).
