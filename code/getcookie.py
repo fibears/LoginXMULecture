@@ -3,7 +3,7 @@
 # @Author: zengphil
 # @Date:   2016-03-20 18:36:34
 # @Last Modified by:   fibears
-# @Last Modified time: 2016-03-21 22:55:03
+# @Last Modified time: 2016-03-22 21:58:23
 
 import time
 import sys
@@ -23,8 +23,8 @@ cookie = cookielib.MozillaCookieJar(firename)
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
 # Part1. 构建PostData，第一步输入Post的数据：用户名和密码
 UserData = urllib.urlencode({
-    'UserName': 'sys.argv[1]',
-    'Password': 'sys.argv[2]'
+    'UserName': sys.argv[1],
+    'Password': sys.argv[2]
 })
 urlLogon = 'http://event.wisesoe.com/Logon.aspx'
 result1 = opener.open(urlLogon, UserData)
@@ -33,8 +33,8 @@ result1 = opener.open(urlLogon, UserData)
 # Part2.
 TimeStamp1 = int(time.time()*1000)
 TimeStamp1Data = urllib.urlencode({
-    'UserName': 'sys.argv[1]',
-    'Password': 'sys.argv[2]',
+    'UserName': sys.argv[1],
+    'Password': sys.argv[2],
     '_': TimeStamp1
     })
 
