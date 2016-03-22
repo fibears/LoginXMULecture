@@ -2,18 +2,20 @@
 
 [Official Website](http://event.wisesoe.com/)
 
-As you known, we must attend 10 Lectures every semester	 in Econ, XMU. Firstly, we must reserve the lecture in official website. At begin of the semester, everyone is crazy to grab the ticket, and all of the lectures will be snatched by others in a minute.
-
-As a lazy man, I don't like to wait for reserving the lecture in time. So, I try to write a script to automate the reservation process.
-
-Finally, I succeed in developing the `web robot`.
-
-Didn't reserve successfully for a lecture? No worry, my robot will help you secure your seat in advance, fast, free and friendly.
-
+Students in School of Economics of Xiamen Univ. must attend a minimum number of lectures every semester and the number for grad students is ten. So the question arose when a student tries to reserve lectures in advance at the beginning of a semester: how to secure a seat of popular lectures? When everyone goes crazy to grab a ticket and it sold out as quickly as tickets of Jay Chou’s world concert tour or railroad tickets during Chunyun, what you can do to tackle with this annoying problem except for having a what-the-fucking-hell-happened face.Well, I’m one of the students and as a lazy man, I don’t like to seat in from of my laptop and wait till the Lecture Reserving Website releases lecture information. So I decided to write a Python script to automate the reservation process.
 ## How to run this robot?
 
-1. Install Anaconda or Python2.7
-2. Install lxml package(Anaconda has contained this package)
-3. Open auto.sh(OSX or Linux) or auto.bat(Windows) by text editor. And change the "Username" and "Passwd" to your real account information.
-4. Finally, run auto.sh(OSX or Linux) or auto.bat(Windows) file.
+Fortunately, I succeeded in developing the web robot. I have tested a lot of times and it seems working well. You just need to follow the instructions below to let the robot work for you:1. Click the button Download ZIP on the top right of the page and download the whole materials in this page
+2. Extract your downloaded files
+3. Go to file-folder code, right-click auto.bat(Windows User) and choose edit (编辑); If you are OSX or Linux User, please edit the auto.sh
+4. In the second-to-last line, please substitute the field of username and password by YOUR OWN username (i.e. your student ID) and password of Lecture Reserving Website, respectively
+5. Save the auto.bat(or auto.sh) file
+6. Click auto.bat file and the robot has sailed off to reserve seats for all available lectures!
+7. Attention! If you are OSX or Linux users, you musht run `chmod a+x auto.sh` in terminal before you run auto.sh file.
+
+```bash
+# Set path to '../LoginXMULecture/code'
+chmod a+x auto.sh
+./auto.sh
+```Still didn’t reserve successfully for a lecture? No worry, my robot will help you secure your seat in advance, fast, free and friendly.
 

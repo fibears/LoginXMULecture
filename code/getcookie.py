@@ -3,7 +3,7 @@
 # @Author: zengphil
 # @Date:   2016-03-20 18:36:34
 # @Last Modified by:   fibears
-# @Last Modified time: 2016-03-21 15:01:20
+# @Last Modified time: 2016-03-21 22:55:03
 
 import time
 import sys
@@ -11,6 +11,8 @@ import json
 import urllib
 import urllib2
 import cookielib
+import random
+from agents import AGENTS
 
 print("Crawl the cookie......")
 # 设置保存cookie的文件
@@ -21,8 +23,8 @@ cookie = cookielib.MozillaCookieJar(firename)
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
 # Part1. 构建PostData，第一步输入Post的数据：用户名和密码
 UserData = urllib.urlencode({
-    'UserName': sys.argv[1],
-    'Password': sys.argv[2]
+    'UserName': 'sys.argv[1]',
+    'Password': 'sys.argv[2]'
 })
 urlLogon = 'http://event.wisesoe.com/Logon.aspx'
 result1 = opener.open(urlLogon, UserData)
@@ -31,8 +33,8 @@ result1 = opener.open(urlLogon, UserData)
 # Part2.
 TimeStamp1 = int(time.time()*1000)
 TimeStamp1Data = urllib.urlencode({
-    'UserName': sys.argv[1],
-    'Password': sys.argv[2],
+    'UserName': 'sys.argv[1]',
+    'Password': 'sys.argv[2]',
     '_': TimeStamp1
     })
 
@@ -53,8 +55,9 @@ AuthUrl = 'http://event.wisesoe.com/Authenticate.aspx'
 TokenData = urllib.urlencode({
     'token': str(token)
     })
+user_agent = random.choice(AGENTS)
 headers = {
-    'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3)',
+    'User-Agent': user_agent,
     'Referer': 'http://event.wisesoe.com/Authenticate.aspx?returnUrl=Default.aspx',
     'X-Requested-With': 'XMLHttpRequest'
 }

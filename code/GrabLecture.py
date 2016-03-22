@@ -3,7 +3,7 @@
 # @Author: zengphil
 # @Date:   2016-03-20 16:36:35
 # @Last Modified by:   fibears
-# @Last Modified time: 2016-03-21 14:58:01
+# @Last Modified time: 2016-03-21 20:23:02
 
 # Load packages
 import time
@@ -12,12 +12,15 @@ import urllib2
 import cookielib
 import re
 import sys
+import random
+
+from agents import AGENTS
 from lxml.html import parse
 
 class GrabLecture(object):
     """docstring for GrabLecture"""
     def __init__(self):
-        self.user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:44.0) Gecko/20100101 Firefox/44.0'
+        self.user_agent = random.choice(AGENTS)
         self.headers = {'User-Agent': self.user_agent}
         self.LectureUrl = 'http://event.wisesoe.com/LectureOrder.aspx'
 
