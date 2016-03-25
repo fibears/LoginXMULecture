@@ -3,7 +3,7 @@
 # @Author: zengphil
 # @Date:   2016-03-20 16:36:35
 # @Last Modified by:   fibears
-# @Last Modified time: 2016-03-21 20:23:02
+# @Last Modified time: 2016-03-25 19:14:49
 
 # Load packages
 import time
@@ -13,6 +13,7 @@ import cookielib
 import re
 import sys
 import random
+import lxml
 
 from agents import AGENTS
 from lxml.html import parse
@@ -50,7 +51,9 @@ class GrabLecture(object):
         if JSLink == []:
             print("Sorry!!!=======>No Seminar is active at present!")
             print("Bye-Bye!")
+            print("-------------分割线------------")
             # Exit python and print information.
+            self.PrintInformation()
             sys.exit()
 
         PostData = []
@@ -78,6 +81,28 @@ class GrabLecture(object):
 
         return PostData
 
+    def PrintInformation(self):
+        # Print SelectedLectures Information
+        opener = self.getOpener()
+        NewResponse = opener.open(self.LectureUrl).read().decode('utf-8')
+        parsed = lxml.html.fromstring(NewResponse)
+        SelectedLecture = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[2]/text()")
+        Speaker = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[3]/text()")
+        LectureLocation = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[5]/text()")
+        LectureTime = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[6]/text()")
+        if len(SelectedLecture) == 0:
+            print "You haven't reserved any lecture."
+        if len(SelectedLecture) != 0:
+            print "You have reserved", len(SelectedLecture), "lectures!!!"
+            print "More details......"
+            for i in range(0, len(SelectedLecture)):
+                print "-------------","Lecture", i+1, "--------------"
+                print "Name", ':', SelectedLecture[i]
+                print "Speaker", ":", Speaker[i]
+                print "Location", ':', LectureLocation[i]
+                print "Time", ':', LectureTime[i]
+
+
 
     def start(self):
         self.headers.update({
@@ -94,6 +119,8 @@ class GrabLecture(object):
             QKRequest = urllib2.Request(self.LectureUrl, Data, self.headers)
             response = opener.open(QKRequest)
             print("Congratulation!!!You have reserved one seminar!!!")
+        # Print information
+        self.PrintInformation()
 
 
 if __name__ == '__main__':
