@@ -3,7 +3,7 @@
 # @Author: zengphil
 # @Date:   2016-03-20 18:36:34
 # @Last Modified by:   fibears
-# @Last Modified time: 2016-03-22 21:58:23
+# @Last Modified time: 2016-03-27 23:12:35
 
 import time
 import sys
@@ -21,36 +21,26 @@ firename = 'cookie.txt'
 cookie = cookielib.MozillaCookieJar(firename)
 # 利用urllib2库的HTTPCookieProcessor对象来创建cookie处理器
 opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
-# Part1. 构建PostData，第一步输入Post的数据：用户名和密码
-UserData = urllib.urlencode({
-    'UserName': sys.argv[1],
-    'Password': sys.argv[2]
-})
-urlLogon = 'http://event.wisesoe.com/Logon.aspx'
-result1 = opener.open(urlLogon, UserData)
-# 此时已经获取到部分cookie值
-
-# Part2.
+# Part1. 构建PostData，第一步输入Post的数据：用户名,密码和时间戳
 TimeStamp1 = int(time.time()*1000)
 TimeStamp1Data = urllib.urlencode({
     'UserName': sys.argv[1],
     'Password': sys.argv[2],
     '_': TimeStamp1
     })
-
 urltoken = 'http://account.wisesoe.com/WcfServices/SSOService.svc/Account/Logon?' + TimeStamp1Data
-result2 = opener.open(urltoken)
+result1 = opener.open(urltoken)
 
-# Part 3.
+# Part 2.
 TimeStamp2 = int(time.time()*1000)
 TimeStamp2Data = urllib.urlencode({
     '_' : TimeStamp2
     })
 urlRequestToken = 'http://account.wisesoe.com/WcfServices/SSOService.svc/Account/RequestToken?' + TimeStamp2Data
-result3 = opener.open(urlRequestToken).read()
-token = json.loads(result3)['Token']
+result2 = opener.open(urlRequestToken).read()
+token = json.loads(result2)['Token']
 
-# Part 4.
+# Part 3.
 AuthUrl = 'http://event.wisesoe.com/Authenticate.aspx'
 TokenData = urllib.urlencode({
     'token': str(token)
@@ -62,7 +52,7 @@ headers = {
     'X-Requested-With': 'XMLHttpRequest'
 }
 request = urllib2.Request(AuthUrl, TokenData, headers)
-result4 = opener.open(request)
+result3 = opener.open(request)
 cookie.save(ignore_discard=True, ignore_expires=True)
 print("The cookie is saved on your computer!")
 print("Next step =====> GrabLecture from website.")
