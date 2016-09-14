@@ -23,6 +23,8 @@ chmod a+x auto.sh
 If you want to explore the operational logic of this website, please visit My Blog--[LectureRobot](http://fibears.top/2016/03/21/LectureRobot/).
 
 ## Features
+### Version_1 (2016.09.14)
+
 ### App Building(2016.06.02)
 - Package the code to App.
 
