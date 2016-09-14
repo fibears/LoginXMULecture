@@ -5,6 +5,18 @@
 # Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
+import time
+import sys
+import json
+import urllib
+import urllib2
+import cookielib
+import random
+import lxml
+import re
+
+from lxml.html import parse
+from agents import AGENTS
 
 from PyQt4 import QtCore, QtGui
 
@@ -53,6 +65,8 @@ class Ui_Dialog(object):
         self.pushButton.setAutoDefault(False)
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.formLayout.setWidget(3, QtGui.QFormLayout.FieldRole, self.pushButton)
+        # add #
+        self.pushButton.clicked.connect(self.GetCookies)
         self.label_5 = QtGui.QLabel(self.formLayoutWidget)
         self.label_5.setObjectName(_fromUtf8("label_5"))
         self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.label_5)
@@ -60,6 +74,8 @@ class Ui_Dialog(object):
         self.pushButton_2.setAutoDefault(False)
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
         self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.pushButton_2)
+        # add #
+        self.pushButton_2.clicked.connect(self.Selected)
         self.label_10 = QtGui.QLabel(self.formLayoutWidget)
         self.label_10.setObjectName(_fromUtf8("label_10"))
         self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.label_10)
@@ -114,6 +130,186 @@ class Ui_Dialog(object):
         self.label_6.setText(_translate("Dialog", "Step1: You should login your account;", None))
         self.label_8.setText(_translate("Dialog", "Step2: Click Selected Button;", None))
         self.label_9.setText(_translate("Dialog", "Done!", None))
+
+    def GetCookies(self):
+        self.textBrowser.append("Crawl the cookie......")
+        print("Crawl the cookie......")
+        filename = 'cookie.txt'
+        cookie = cookielib.MozillaCookieJar(filename)
+        # 利用urllib2库的HTTPCookieProcessor对象来创建cookie处理器
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
+        # Part1. 构建PostData，第一步输入Post的数据：用户名,密码和时间戳
+        TimeStamp1 = int(time.time()*1000)
+        TimeStamp1Data = urllib.urlencode({
+            'UserName': self.label,
+            'Password': self.label_2,
+            '_': TimeStamp1
+            })
+        urltoken = 'http://account.wisesoe.com/WcfServices/SSOService.svc/Account/Logon?' + TimeStamp1Data
+        result1 = opener.open(urltoken)
+
+        # Part 2.
+        TimeStamp2 = int(time.time()*1000)
+        TimeStamp2Data = urllib.urlencode({
+            '_' : TimeStamp2
+            })
+        urlRequestToken = 'http://account.wisesoe.com/WcfServices/SSOService.svc/Account/RequestToken?' + TimeStamp2Data
+        result2 = opener.open(urlRequestToken).read()
+        token = json.loads(result2)['Token']
+
+        # Part 3.
+        AuthUrl = 'http://event.wisesoe.com/Authenticate.aspx'
+        TokenData = urllib.urlencode({
+            'token': str(token)
+            })
+        user_agent = random.choice(AGENTS)
+        headers = {
+            'User-Agent': user_agent,
+            'Referer': 'http://event.wisesoe.com/Authenticate.aspx?returnUrl=Default.aspx',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+        request = urllib2.Request(AuthUrl, TokenData, headers)
+        result3 = opener.open(request)
+        cookie.save(ignore_discard=True, ignore_expires=True)
+        self.textBrowser.append("The cookie is saved on your computer!")
+        self.textBrowser.append("Next step =====> GrabLecture from website.")
+        print("The cookie is saved on your computer!")
+        print("Next step =====> GrabLecture from website.")
+        return cookie
+
+    def Selected(self):
+        robot = GrabLecture()
+        Headers = robot.headers
+        Headers.update({
+            'Host': 'event.wisesoe.com',
+            'Referer': 'http://event.wisesoe.com/Authenticate.aspx?returnUrl=/LectureOrder.aspx',
+            'Connection': 'keep-alive'
+            })
+        self.textBrowser.append("The robot is starting!!!")
+        self.textBrowser.append("Searching active seminar...........")
+        print("The robot is starting!!!")
+        print("Searching active seminar...........")
+        opener = robot.getOpener()
+        PostData = robot.getPostdata()
+        for i in range(0, len(PostData)):
+            Data = PostData[i]
+            QKRequest = urllib2.Request(robot.LectureUrl, Data, Headers)
+            response = opener.open(QKRequest)
+            self.textBrowser.append("Congratulation!!!You have reserved one seminar!!!")
+            print("Congratulation!!!You have reserved one seminar!!!")
+        # Print information
+        robot.PrintInformation()
+        #robot.start()
+
+class GrabLecture(object):
+    """docstring for GrabLecture"""
+
+    def __init__(self):
+        # choose a user_agent from AGENTS randomly
+        self.user_agent = random.choice(AGENTS)
+        # Construct headers file
+        self.headers = {'User-Agent': self.user_agent}
+        # Default URL
+        self.LectureUrl = 'http://event.wisesoe.com/LectureOrder.aspx'
+
+    # Define the opener
+    def getOpener(self):
+        # Create MozillaCookieJar Object
+        cookie = cookielib.MozillaCookieJar()
+        # Load cookie.txt file
+        cookie.load('cookie.txt', ignore_discard=True, ignore_expires=True)
+        # Construct opener processor
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
+        return opener
+
+    # Get the html parsed result
+    def getParsed(self):
+        opener = self.getOpener()
+        # Parse the response file by lxml.html.parse Method
+        parsed = parse(opener.open(self.LectureUrl))
+        return parsed
+
+    # Construct the PostData from parsed result
+    def getPostdata(self):
+        parsed = self.getParsed()
+        # construct regex to extract Reservation Javascript Link
+        pattern = re.compile(r"javascript:__doPostBack\('(.*?)','(.*?)'\)")
+        # The link of cancelling reservation.
+        # JSLink = parsed.xpath('//td/a[contains(@onclick, "Cancel")]/@href')
+
+        JSLink = parsed.xpath('//td/a[contains(@id, "btnreceive")]/@href')
+        # check whether JSLink exists
+        if JSLink == []:
+            print("Sorry!!!=======>No Seminar is active at present!")
+            print("Bye-Bye!")
+            print("-------------分割线------------")
+            # Print information and Exit python.
+            self.PrintInformation()
+            #sys.exit()
+
+        # TO GET PostData
+        PostData = []
+        for i in range(0, len(JSLink)):
+            link = JSLink[i]
+            EventTarget = pattern.match(link).groups()[0]
+            EventArgument = pattern.match(link).groups()[1]
+            # Extract the parameters from html
+            ViewState = parsed.xpath('//input[@name="__VIEWSTATE"]/@value')[0]
+            ViewStateGenerator = parsed.xpath('//input[@name=__VIEWSTATEGENERATOR]/@value')
+            ViewStateEncrypted = parsed.xpath('//input[@name=__VIEWSTATEENCRYPTED]/@value')
+            EventValidation = parsed.xpath('//input[@name="__EVENTVALIDATION"]/@value')[0]
+            # Create PostData
+            PostData.append(urllib.urlencode({
+                '__EVENTTARGET': EventTarget,
+                '__EVENTARGUMENT': EventArgument,
+                '__VIEWSTATE': ViewState,
+                '__VIEWSTATEGENERATOR': ViewStateGenerator,
+                '__VIEWSTATEENCRYPTED': ViewStateEncrypted,
+                '__EVENTVALIDATION': EventValidation
+                }))
+        return PostData
+
+    # Define Information Printing Function
+    def PrintInformation(self):
+        """Print SelectedLectures Information"""
+        opener = self.getOpener()
+        NewResponse = opener.open(self.LectureUrl).read().decode('utf-8')
+        parsed = lxml.html.fromstring(NewResponse)
+        # Extract Information of Reserved Lectures
+        SelectedLecture = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[2]/text()")
+        Speaker = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[3]/text()")
+        LectureLocation = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[5]/text()")
+        LectureTime = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[6]/text()")
+        if len(SelectedLecture) == 0:
+            print "You haven't reserved any lecture."
+        if len(SelectedLecture) != 0:
+            print "You have reserved", len(SelectedLecture), "lectures!!!"
+            print "More details......"
+            for i in range(0, len(SelectedLecture)):
+                print "-------------","Lecture", i+1, "--------------"
+                print "Name", ':', SelectedLecture[i]
+                print "Speaker", ":", Speaker[i]
+                print "Location", ':', LectureLocation[i]
+                print "Time", ':', LectureTime[i]
+
+    # Main Function
+    def start(self):
+        self.headers.update({
+            'Host': 'event.wisesoe.com',
+            'Referer': 'http://event.wisesoe.com/Authenticate.aspx?returnUrl=/LectureOrder.aspx',
+            'Connection': 'keep-alive'
+            })
+        print("The robot is starting!!!")
+        print("Searching active seminar...........")
+        opener = self.getOpener()
+        PostData = self.getPostdata()
+        for i in range(0, len(PostData)):
+            Data = PostData[i]
+            QKRequest = urllib2.Request(self.LectureUrl, Data, self.headers)
+            response = opener.open(QKRequest)
+            print("Congratulation!!!You have reserved one seminar!!!")
+        # Print information
+        self.PrintInformation()
 
 
 if __name__ == "__main__":
