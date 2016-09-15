@@ -35,6 +35,15 @@ except AttributeError:
         return QtGui.QApplication.translate(context, text, disambig)
 
 class Ui_Dialog(object):
+
+    def __init__(self):
+        # choose a user_agent from AGENTS randomly
+        self.user_agent = random.choice(AGENTS)
+        # Construct headers file
+        self.headers = {'User-Agent': self.user_agent}
+        # Default URL
+        self.LectureUrl = 'http://event.wisesoe.com/LectureOrder.aspx'
+
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(404, 353)
@@ -172,45 +181,12 @@ class Ui_Dialog(object):
         result3 = opener.open(request)
         cookie.save(ignore_discard=True, ignore_expires=True)
         self.textBrowser.append("The cookie is saved on your computer!")
-        self.textBrowser.append("Next step =====> GrabLecture from website.")
+        self.textBrowser.append("Next step......")
+        self.textBrowser.append("GrabLecture from website.")
         print("The cookie is saved on your computer!")
         print("Next step =====> GrabLecture from website.")
         return cookie
 
-    def Selected(self):
-        robot = GrabLecture()
-        Headers = robot.headers
-        Headers.update({
-            'Host': 'event.wisesoe.com',
-            'Referer': 'http://event.wisesoe.com/Authenticate.aspx?returnUrl=/LectureOrder.aspx',
-            'Connection': 'keep-alive'
-            })
-        self.textBrowser.append("The robot is starting!!!")
-        self.textBrowser.append("Searching active seminar...........")
-        print("The robot is starting!!!")
-        print("Searching active seminar...........")
-        opener = robot.getOpener()
-        PostData = robot.getPostdata()
-        for i in range(0, len(PostData)):
-            Data = PostData[i]
-            QKRequest = urllib2.Request(robot.LectureUrl, Data, Headers)
-            response = opener.open(QKRequest)
-            self.textBrowser.append("Congratulation!!!You have reserved one seminar!!!")
-            print("Congratulation!!!You have reserved one seminar!!!")
-        # Print information
-        robot.PrintInformation()
-        #robot.start()
-
-class GrabLecture(object):
-    """docstring for GrabLecture"""
-
-    def __init__(self):
-        # choose a user_agent from AGENTS randomly
-        self.user_agent = random.choice(AGENTS)
-        # Construct headers file
-        self.headers = {'User-Agent': self.user_agent}
-        # Default URL
-        self.LectureUrl = 'http://event.wisesoe.com/LectureOrder.aspx'
 
     # Define the opener
     def getOpener(self):
@@ -240,6 +216,10 @@ class GrabLecture(object):
         JSLink = parsed.xpath('//td/a[contains(@id, "btnreceive")]/@href')
         # check whether JSLink exists
         if JSLink == []:
+            self.textBrowser.append("Sorry!!!")
+            self.textBrowser.append("No Seminar is active at present!")
+            self.textBrowser.append("Bye-Bye!")
+            self.textBrowser.append("------Cutting Line------")
             print("Sorry!!!=======>No Seminar is active at present!")
             print("Bye-Bye!")
             print("-------------分割线------------")
@@ -281,36 +261,47 @@ class GrabLecture(object):
         LectureLocation = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[5]/text()")
         LectureTime = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[6]/text()")
         if len(SelectedLecture) == 0:
+            self.textBrowser.append("You haven't reserved any lecture...")
             print "You haven't reserved any lecture."
         if len(SelectedLecture) != 0:
+            self.textBrowser.append("You have reserved " + str(len(SelectedLecture)) + " lectures!!!")
+            self.textBrowser.append("More details......")
             print "You have reserved", len(SelectedLecture), "lectures!!!"
             print "More details......"
             for i in range(0, len(SelectedLecture)):
+                self.textBrowser.append("------ Lecture ", str(i+1), "------")
+                self.textBrowser.append("Name: " + SelectedLecture[i])
+                self.textBrowser.append("Speaker: " + Speaker[i])
+                self.textBrowser.append("Location: " + LectureLocation[i])
+                self.textBrowser.append("Time: " + LectureTime[i])
                 print "-------------","Lecture", i+1, "--------------"
                 print "Name", ':', SelectedLecture[i]
                 print "Speaker", ":", Speaker[i]
                 print "Location", ':', LectureLocation[i]
                 print "Time", ':', LectureTime[i]
 
-    # Main Function
-    def start(self):
-        self.headers.update({
+    def Selected(self):
+        Headers = self.headers
+        Headers.update({
             'Host': 'event.wisesoe.com',
             'Referer': 'http://event.wisesoe.com/Authenticate.aspx?returnUrl=/LectureOrder.aspx',
             'Connection': 'keep-alive'
             })
+        self.textBrowser.append("The robot is starting!!!")
+        self.textBrowser.append("Searching......")
         print("The robot is starting!!!")
         print("Searching active seminar...........")
         opener = self.getOpener()
         PostData = self.getPostdata()
         for i in range(0, len(PostData)):
             Data = PostData[i]
-            QKRequest = urllib2.Request(self.LectureUrl, Data, self.headers)
+            QKRequest = urllib2.Request(self.LectureUrl, Data, Headers)
             response = opener.open(QKRequest)
+            self.textBrowser.append("Congratulation!!!")
+            self.textBrowser.append("You have reserved one seminar!!!")
             print("Congratulation!!!You have reserved one seminar!!!")
         # Print information
         self.PrintInformation()
-
 
 if __name__ == "__main__":
     import sys
