@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'dialog.ui'
-#
-# Created by: PyQt4 UI code generator 4.11.4
-#
-# WARNING! All changes made in this file will be lost!
 import time
 import sys
 import json
@@ -17,7 +12,6 @@ import re
 
 from lxml.html import parse
 from agents import AGENTS
-
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -34,7 +28,7 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_Dialog(object):
+class Ui_Widget(object):
 
     def __init__(self):
         # choose a user_agent from AGENTS randomly
@@ -44,114 +38,147 @@ class Ui_Dialog(object):
         # Default URL
         self.LectureUrl = 'http://event.wisesoe.com/LectureOrder.aspx'
 
-    def setupUi(self, Dialog):
-        Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(404, 353)
-        self.formLayoutWidget = QtGui.QWidget(Dialog)
-        self.formLayoutWidget.setGeometry(QtCore.QRect(10, 50, 238, 171))
-        self.formLayoutWidget.setObjectName(_fromUtf8("formLayoutWidget"))
-        self.formLayout = QtGui.QFormLayout(self.formLayoutWidget)
-        self.formLayout.setObjectName(_fromUtf8("formLayout"))
-        self.label = QtGui.QLabel(self.formLayoutWidget)
-        self.label.setObjectName(_fromUtf8("label"))
-        self.formLayout.setWidget(1, QtGui.QFormLayout.LabelRole, self.label)
-        self.lineEdit = QtGui.QLineEdit(self.formLayoutWidget)
-        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
-        self.formLayout.setWidget(1, QtGui.QFormLayout.FieldRole, self.lineEdit)
-        self.label_2 = QtGui.QLabel(self.formLayoutWidget)
-        self.label_2.setObjectName(_fromUtf8("label_2"))
-        self.formLayout.setWidget(2, QtGui.QFormLayout.LabelRole, self.label_2)
-        self.lineEdit_2 = QtGui.QLineEdit(self.formLayoutWidget)
-        self.lineEdit_2.setInputMask(_fromUtf8(""))
-        self.lineEdit_2.setText(_fromUtf8(""))
-        self.lineEdit_2.setEchoMode(QtGui.QLineEdit.Password)
-        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
-        self.formLayout.setWidget(2, QtGui.QFormLayout.FieldRole, self.lineEdit_2)
-        self.label_4 = QtGui.QLabel(self.formLayoutWidget)
-        self.label_4.setObjectName(_fromUtf8("label_4"))
-        self.formLayout.setWidget(3, QtGui.QFormLayout.LabelRole, self.label_4)
-        self.pushButton = QtGui.QPushButton(self.formLayoutWidget)
-        self.pushButton.setAutoDefault(False)
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.formLayout.setWidget(3, QtGui.QFormLayout.FieldRole, self.pushButton)
-        # add #
-        self.pushButton.clicked.connect(self.GetCookies)
-        self.label_5 = QtGui.QLabel(self.formLayoutWidget)
-        self.label_5.setObjectName(_fromUtf8("label_5"))
-        self.formLayout.setWidget(4, QtGui.QFormLayout.LabelRole, self.label_5)
-        self.pushButton_2 = QtGui.QPushButton(self.formLayoutWidget)
-        self.pushButton_2.setAutoDefault(False)
-        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
-        self.formLayout.setWidget(4, QtGui.QFormLayout.FieldRole, self.pushButton_2)
-        # add #
-        self.pushButton_2.clicked.connect(self.Selected)
-        self.label_10 = QtGui.QLabel(self.formLayoutWidget)
-        self.label_10.setObjectName(_fromUtf8("label_10"))
-        self.formLayout.setWidget(5, QtGui.QFormLayout.LabelRole, self.label_10)
-        self.label_11 = QtGui.QLabel(self.formLayoutWidget)
-        self.label_11.setContextMenuPolicy(QtCore.Qt.ActionsContextMenu)
-        self.label_11.setObjectName(_fromUtf8("label_11"))
-        self.formLayout.setWidget(5, QtGui.QFormLayout.FieldRole, self.label_11)
-        self.verticalLayoutWidget = QtGui.QWidget(Dialog)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(100, 10, 201, 41))
-        self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
-        self.verticalLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
-        self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.label_3 = QtGui.QLabel(self.verticalLayoutWidget)
-        self.label_3.setObjectName(_fromUtf8("label_3"))
-        self.verticalLayout.addWidget(self.label_3)
-        self.verticalLayoutWidget_2 = QtGui.QWidget(Dialog)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(80, 220, 251, 130))
+    def setupUi(self, Widget):
+        Widget.setObjectName(_fromUtf8("Widget"))
+        Widget.resize(529, 300)
+        Widget.setAutoFillBackground(True)
+        self.verticalLayoutWidget_2 = QtGui.QWidget(Widget)
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(220, 60, 301, 221))
         self.verticalLayoutWidget_2.setObjectName(_fromUtf8("verticalLayoutWidget_2"))
         self.verticalLayout_2 = QtGui.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2.setMargin(11)
+        self.verticalLayout_2.setSpacing(6)
         self.verticalLayout_2.setObjectName(_fromUtf8("verticalLayout_2"))
-        self.label_7 = QtGui.QLabel(self.verticalLayoutWidget_2)
-        self.label_7.setObjectName(_fromUtf8("label_7"))
-        self.verticalLayout_2.addWidget(self.label_7)
-        self.label_6 = QtGui.QLabel(self.verticalLayoutWidget_2)
-        self.label_6.setObjectName(_fromUtf8("label_6"))
-        self.verticalLayout_2.addWidget(self.label_6)
-        self.label_8 = QtGui.QLabel(self.verticalLayoutWidget_2)
-        self.label_8.setObjectName(_fromUtf8("label_8"))
-        self.verticalLayout_2.addWidget(self.label_8)
-        self.label_9 = QtGui.QLabel(self.verticalLayoutWidget_2)
-        self.label_9.setObjectName(_fromUtf8("label_9"))
-        self.verticalLayout_2.addWidget(self.label_9)
-        self.textBrowser = QtGui.QTextBrowser(Dialog)
-        self.textBrowser.setGeometry(QtCore.QRect(250, 50, 151, 171))
+        self.textBrowser = QtGui.QTextBrowser(self.verticalLayoutWidget_2)
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("KaiTi"))
+        self.textBrowser.setFont(font)
         self.textBrowser.setObjectName(_fromUtf8("textBrowser"))
+        self.verticalLayout_2.addWidget(self.textBrowser)
+        self.verticalLayoutWidget_3 = QtGui.QWidget(Widget)
+        self.verticalLayoutWidget_3.setGeometry(QtCore.QRect(10, 20, 511, 31))
+        self.verticalLayoutWidget_3.setObjectName(_fromUtf8("verticalLayoutWidget_3"))
+        self.verticalLayout_3 = QtGui.QVBoxLayout(self.verticalLayoutWidget_3)
+        self.verticalLayout_3.setContentsMargins(11, 1, 11, 1)
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName(_fromUtf8("verticalLayout_3"))
+        self.label_6 = QtGui.QLabel(self.verticalLayoutWidget_3)
+        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_6.setObjectName(_fromUtf8("label_6"))
+        self.verticalLayout_3.addWidget(self.label_6)
+        self.gridLayoutWidget = QtGui.QWidget(Widget)
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 60, 211, 221))
+        self.gridLayoutWidget.setObjectName(_fromUtf8("gridLayoutWidget"))
+        self.gridLayout_2 = QtGui.QGridLayout(self.gridLayoutWidget)
+        self.gridLayout_2.setMargin(11)
+        self.gridLayout_2.setSpacing(6)
+        self.gridLayout_2.setObjectName(_fromUtf8("gridLayout_2"))
+        self.label_2 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.gridLayout_2.addWidget(self.label_2, 1, 0, 1, 1)
+        self.label = QtGui.QLabel(self.gridLayoutWidget)
+        self.label.setObjectName(_fromUtf8("label"))
+        self.gridLayout_2.addWidget(self.label, 0, 0, 1, 1)
+        self.commandLinkButton = QtGui.QCommandLinkButton(self.gridLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.commandLinkButton.sizePolicy().hasHeightForWidth())
+        self.commandLinkButton.setSizePolicy(sizePolicy)
+        self.commandLinkButton.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.commandLinkButton.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.commandLinkButton.setIconSize(QtCore.QSize(16, 16))
+        self.commandLinkButton.setAutoDefault(False)
+        self.commandLinkButton.setDefault(False)
+        self.commandLinkButton.setObjectName(_fromUtf8("commandLinkButton"))
+        self.gridLayout_2.addWidget(self.commandLinkButton, 3, 1, 1, 1)
+        self.label_3 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.gridLayout_2.addWidget(self.label_3, 2, 0, 1, 1)
+        self.commandLinkButton_2 = QtGui.QCommandLinkButton(self.gridLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.commandLinkButton_2.sizePolicy().hasHeightForWidth())
+        self.commandLinkButton_2.setSizePolicy(sizePolicy)
+        self.commandLinkButton_2.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.commandLinkButton_2.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.commandLinkButton_2.setIconSize(QtCore.QSize(16, 16))
+        self.commandLinkButton_2.setAutoDefault(False)
+        self.commandLinkButton_2.setDefault(False)
+        self.commandLinkButton_2.setObjectName(_fromUtf8("commandLinkButton_2"))
+        self.gridLayout_2.addWidget(self.commandLinkButton_2, 4, 1, 1, 1)
+        self.lineEdit = QtGui.QLineEdit(self.gridLayoutWidget)
+        self.lineEdit.setObjectName(_fromUtf8("lineEdit"))
+        self.gridLayout_2.addWidget(self.lineEdit, 0, 1, 1, 1)
+        self.label_4 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.gridLayout_2.addWidget(self.label_4, 3, 0, 1, 1)
+        self.lineEdit_2 = QtGui.QLineEdit(self.gridLayoutWidget)
+        self.lineEdit_2.setInputMask(_fromUtf8(""))
+        self.lineEdit_2.setEchoMode(QtGui.QLineEdit.Password)
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+        self.gridLayout_2.addWidget(self.lineEdit_2, 1, 1, 1, 1)
+        self.pushButton = QtGui.QPushButton(self.gridLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.gridLayout_2.addWidget(self.pushButton, 2, 1, 1, 1)
+        # add #
+        self.pushButton.clicked.connect(self.Selected)
+        self.label_5 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.gridLayout_2.addWidget(self.label_5, 4, 0, 1, 1)
+        self.label_7 = QtGui.QLabel(self.gridLayoutWidget)
+        self.label_7.setObjectName(_fromUtf8("label_7"))
+        self.gridLayout_2.addWidget(self.label_7, 5, 0, 1, 1)
+        self.commandLinkButton_3 = QtGui.QCommandLinkButton(self.gridLayoutWidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.commandLinkButton_3.sizePolicy().hasHeightForWidth())
+        self.commandLinkButton_3.setSizePolicy(sizePolicy)
+        self.commandLinkButton_3.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.commandLinkButton_3.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.commandLinkButton_3.setIconSize(QtCore.QSize(16, 16))
+        self.commandLinkButton_3.setAutoDefault(False)
+        self.commandLinkButton_3.setDefault(False)
+        self.commandLinkButton_3.setObjectName(_fromUtf8("commandLinkButton_3"))
+        self.gridLayout_2.addWidget(self.commandLinkButton_3, 5, 1, 1, 1)
 
-        self.retranslateUi(Dialog)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(Widget)
+        QtCore.QMetaObject.connectSlotsByName(Widget)
 
-    def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
-        self.label.setText(_translate("Dialog", "UserName", None))
-        self.label_2.setText(_translate("Dialog", "Password", None))
-        self.label_4.setText(_translate("Dialog", "Step1", None))
-        self.pushButton.setText(_translate("Dialog", "LOGIN", None))
-        self.label_5.setText(_translate("Dialog", "Step2", None))
-        self.pushButton_2.setText(_translate("Dialog", "Selected!!!", None))
-        self.label_10.setText(_translate("Dialog", "Drop Link", None))
-        self.label_11.setText(_translate("Dialog", "http://event.wisesoe.com/", None))
-        self.label_3.setText(_translate("Dialog", "     XMU WISE&SOE LECTURE", None))
-        self.label_7.setText(_translate("Dialog", "Instruction:", None))
-        self.label_6.setText(_translate("Dialog", "Step1: You should login your account;", None))
-        self.label_8.setText(_translate("Dialog", "Step2: Click Selected Button;", None))
-        self.label_9.setText(_translate("Dialog", "Done!", None))
+    def retranslateUi(self, Widget):
+        Widget.setWindowTitle(_translate("Widget", "Widget", None))
+        self.label_6.setText(_translate("Widget", "XMU WISE&SOE LECTURE ROBOT", None))
+        self.label_2.setText(_translate("Widget", "PassWord", None))
+        self.label.setText(_translate("Widget", "UserName", None))
+        self.commandLinkButton.setText(_translate("Widget", "DropLink", None))
+        self.label_3.setText(_translate("Widget", "ClickMe...", None))
+        self.commandLinkButton_2.setText(_translate("Widget", "MoreDetails", None))
+        self.label_4.setText(_translate("Widget", "DropLink", None))
+        self.pushButton.setText(_translate("Widget", "Select...", None))
+        self.label_5.setText(_translate("Widget", "MoreDetails", None))
+        self.label_7.setText(_translate("Widget", "Author", None))
+        self.commandLinkButton_3.setText(_translate("Widget", "Fibears", None))
 
     def GetCookies(self):
         self.textBrowser.append("Crawl the cookie......")
         print("Crawl the cookie......")
-        filename = 'cookie.txt'
-        cookie = cookielib.MozillaCookieJar(filename)
+        # filename = 'cookie.txt'
+        # cookie = cookielib.MozillaCookieJar(filename)
+        cookie = cookielib.MozillaCookieJar()
         # 利用urllib2库的HTTPCookieProcessor对象来创建cookie处理器
         opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
         # Part1. 构建PostData，第一步输入Post的数据：用户名,密码和时间戳
         TimeStamp1 = int(time.time()*1000)
         TimeStamp1Data = urllib.urlencode({
-            'UserName': self.label,
-            'Password': self.label_2,
+            'UserName': self.lineEdit,
+            'Password': self.lineEdit_2,
             '_': TimeStamp1
             })
         urltoken = 'http://account.wisesoe.com/WcfServices/SSOService.svc/Account/Logon?' + TimeStamp1Data
@@ -179,7 +206,7 @@ class Ui_Dialog(object):
         }
         request = urllib2.Request(AuthUrl, TokenData, headers)
         result3 = opener.open(request)
-        cookie.save(ignore_discard=True, ignore_expires=True)
+        # cookie.save(ignore_discard=True, ignore_expires=True)
         self.textBrowser.append("The cookie is saved on your computer!")
         self.textBrowser.append("Next step......")
         self.textBrowser.append("GrabLecture from website.")
@@ -191,18 +218,19 @@ class Ui_Dialog(object):
     # Define the opener
     def getOpener(self):
         # Create MozillaCookieJar Object
-        cookie = cookielib.MozillaCookieJar()
+        #cookie = cookielib.MozillaCookieJar()
         # Load cookie.txt file
-        cookie.load('cookie.txt', ignore_discard=True, ignore_expires=True)
+        #cookie.load('cookie.txt', ignore_discard=True, ignore_expires=True)
+        self.cookie = self.GetCookies()
         # Construct opener processor
-        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
-        return opener
+        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cookie))
+        return self.opener
 
     # Get the html parsed result
     def getParsed(self):
-        opener = self.getOpener()
+        # opener = self.getOpener()
         # Parse the response file by lxml.html.parse Method
-        parsed = parse(opener.open(self.LectureUrl))
+        parsed = parse(self.opener.open(self.LectureUrl))
         return parsed
 
     # Construct the PostData from parsed result
@@ -252,8 +280,8 @@ class Ui_Dialog(object):
     # Define Information Printing Function
     def PrintInformation(self):
         """Print SelectedLectures Information"""
-        opener = self.getOpener()
-        NewResponse = opener.open(self.LectureUrl).read().decode('utf-8')
+        # opener = self.getOpener()
+        NewResponse = self.opener.open(self.LectureUrl).read().decode('utf-8')
         parsed = lxml.html.fromstring(NewResponse)
         # Extract Information of Reserved Lectures
         SelectedLecture = parsed.xpath("//td/a[contains(@onclick, 'Cancel')]/../../td[2]/text()")
@@ -288,10 +316,10 @@ class Ui_Dialog(object):
             'Connection': 'keep-alive'
             })
         self.textBrowser.append("The robot is starting!!!")
-        self.textBrowser.append("Searching......")
         print("The robot is starting!!!")
         print("Searching active seminar...........")
         opener = self.getOpener()
+        self.textBrowser.append("Searching......")
         PostData = self.getPostdata()
         for i in range(0, len(PostData)):
             Data = PostData[i]
@@ -306,9 +334,9 @@ class Ui_Dialog(object):
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
-    Dialog = QtGui.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
+    Widget = QtGui.QWidget()
+    ui = Ui_Widget()
+    ui.setupUi(Widget)
+    Widget.show()
     sys.exit(app.exec_())
 
