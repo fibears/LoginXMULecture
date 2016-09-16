@@ -8,7 +8,7 @@ If you are interested in this project, you can fork my repo and pull your requse
 ## How to run this robot?
 
 Fortunately, I succeeded in developing the web robot. I have tested a lot of times and it seems working well. You just need to follow the instructions below to let the robot work for you:1. Download the `LectureRobot` app in `app` path
-2. Unzip the file **LectureRobot.zip**
+2. Unzip the file **LectureRobotWindows.zip** or **LectureRobotOSX.zip**
 3. Double click the app `LectureRobot`
 4. Please substitute the field of username and password by YOUR OWN username (i.e. your student ID) and password of Lecture Reserving Website, respectively. 注意，该程序目前还存在一个bug，现在只支持纯数字的密码！ 
 5. Click the `GetCookie` Button, and wait a few seconds
